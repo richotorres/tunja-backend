@@ -105,11 +105,21 @@ async function descargarImagenMeta(mediaId) {
       }
     )
 
+    // CREAR CARPETA TEMP SI NO EXISTE
+    const tempDir =
+      path.join(__dirname, 'temp')
+
+    if (!fs.existsSync(tempDir)) {
+
+      fs.mkdirSync(tempDir)
+
+    }
+
     const fileName =
       `reporte_${Date.now()}.jpg`
 
     const tempPath =
-      path.join(__dirname, 'temp', fileName)
+      path.join(tempDir, fileName)
 
     fs.writeFileSync(tempPath, response.data)
 
@@ -125,9 +135,13 @@ async function descargarImagenMeta(mediaId) {
     console.log('❌ ERROR DESCARGANDO IMAGEN')
 
     if (error.response) {
+
       console.log(error.response.data)
+
     } else {
+
       console.log(error.message)
+
     }
 
     return null
@@ -153,11 +167,12 @@ async function subirImagenSupabase(tempPath, fileName) {
       .from('reportes')
       .upload(fileName, fileBuffer, {
         contentType: 'image/jpeg',
-        upsert: false
+        upsert: true
       })
 
     if (error) {
 
+      console.log('❌ ERROR STORAGE')
       console.log(error)
 
       return null
@@ -174,6 +189,7 @@ async function subirImagenSupabase(tempPath, fileName) {
 
   } catch (error) {
 
+    console.log('❌ ERROR GENERAL STORAGE')
     console.log(error)
 
     return null
@@ -239,7 +255,9 @@ app.post('/webhook', async (req, res) => {
       req.body.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
 
     if (!message) {
+
       return res.sendStatus(200)
+
     }
 
     const from = message.from
@@ -271,13 +289,11 @@ app.post('/webhook', async (req, res) => {
     let respuesta = ''
 
     // ======================================================
-    // SALUDO
+    // INICIO AUTOMÁTICO
     // ======================================================
 
     if (
-      text === 'hola' ||
-      text === 'menu' ||
-      text === 'inicio'
+      usuario.paso === 'inicio'
     ) {
 
       usuario.paso = 'autorizacion'
@@ -465,7 +481,6 @@ También puedes escribir una dirección.`
       const telefono =
         text.replace(/\D/g, '')
 
-      // VALIDAR COLOMBIA
       if (telefono.length !== 10) {
 
         respuesta =
@@ -554,12 +569,15 @@ TH-${Date.now()}
 
     else {
 
+      usuario.paso = 'autorizacion'
+
       respuesta =
-`👋 Bienvenido a *Tunja Sin Huecos*
+`👋 Bienvenido nuevamente a *Tunja Sin Huecos* 🚧
 
-Para iniciar escribe:
+Responde:
 
-✅ hola`
+1️⃣ Aceptar
+2️⃣ No aceptar`
 
     }
 
@@ -622,9 +640,7 @@ setInterval(async () => {
 
 La conversación fue cerrada automáticamente.
 
-Si deseas iniciar nuevamente escribe:
-
-✅ hola`
+Puedes volver a escribir en cualquier momento 🚀`
         )
 
         delete usuarios[numero]
