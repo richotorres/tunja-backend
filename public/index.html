@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Tunja Sin Huecos
+    </title>
+
+    <!-- =====================================
+         LEAFLET CSS
+    ====================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet/dist/leaflet.css"
+    >
+
+    <!-- =====================================
+         CSS
+    ====================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <header class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <h1>
+                🚧 Tunja Sin Huecos
+            </h1>
+
+            <p>
+                Plataforma ciudadana Smart City en tiempo real
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- =====================================
+         CONTENIDO
+    ====================================== -->
+
+    <main class="container">
+
+        <!-- =====================================
+             CONTADOR GIGANTE REALTIME
+        ====================================== -->
+
+        <section class="contador-section">
+
+            <div class="contador-card">
+
+                <div class="contador-label">
+                    🚨 REPORTES ACTIVOS EN TUNJA
+                </div>
+
+                <div
+                    id="contadorGigante"
+                    class="contador-gigante"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <div class="contador-mini-grid">
+
+                <div class="contador-mini">
+
+                    <span>
+                        🏘️
+                    </span>
+
+                    <h3 id="contadorBarrios">
+                        0
+                    </h3>
+
+                    <p>
+                        Barrios afectados
+                    </p>
+
+                </div>
+
+                <div class="contador-mini">
+
+                    <span>
+                        📍
+                    </span>
+
+                    <h3 id="contadorPendientes">
+                        0
+                    </h3>
+
+                    <p>
+                        Casos pendientes
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             KPIs
+        ====================================== -->
+
+        <section class="kpis">
+
+            <div class="kpi-card">
+
+                <h2 id="totalReportes">
+                    0
+                </h2>
+
+                <p>
+                    Reportes Totales
+                </p>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <h2 id="reportesResueltos">
+                    0
+                </h2>
+
+                <p>
+                    Solucionados
+                </p>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <h2 id="reportesPendientes">
+                    0
+                </h2>
+
+                <p>
+                    Pendientes
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             ALERTA CRITICA
+        ====================================== -->
+
+        <section
+            id="alertaCritica"
+            class="alerta-critica"
+        >
+
+            🚨 Analizando zonas críticas...
+
+        </section>
+
+        <!-- =====================================
+             TOP BARRIOS
+        ====================================== -->
+
+        <section class="top-barrios-section">
+
+            <div class="section-title">
+
+                🏆 Top Barrios Más Afectados
+
+            </div>
+
+            <div id="topBarrios">
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             MAPA
+        ====================================== -->
+
+        <section class="map-section">
+
+            <div class="section-title">
+
+                🗺️ Mapa Inteligente de Huecos
+
+            </div>
+
+            <div id="map"></div>
+
+        </section>
+
+        <!-- =====================================
+             GRAFICAS SMART CITY
+        ====================================== -->
+
+        <section class="graficas-section">
+
+            <div class="grafica-card">
+
+                <h2>
+                    📊 Estado de Reportes
+                </h2>
+
+                <canvas id="graficaEstados"></canvas>
+
+            </div>
+
+            <div class="grafica-card">
+
+                <h2>
+                    🏘️ Barrios Más Afectados
+                </h2>
+
+                <canvas id="graficaBarrios"></canvas>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             BARRIOS
+        ====================================== -->
+
+        <section class="barrios-section">
+
+            <div class="section-title">
+
+                🏘️ Barrios Más Afectados
+
+            </div>
+
+            <div
+                id="barriosContainer"
+                class="barrios-grid"
+            >
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             FEED
+        ====================================== -->
+
+        <section class="feed-section">
+
+            <div class="section-title">
+
+                📢 Feed Ciudadano en Tiempo Real
+
+            </div>
+
+            <div id="feedReportes">
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =====================================
+         LEAFLET JS
+    ====================================== -->
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- =====================================
+         HEATMAP
+    ====================================== -->
+
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <!-- =====================================
+         SUPABASE
+    ====================================== -->
+
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
+    <!-- =====================================
+         BARRIOS
+    ====================================== -->
+
+    <script src="barrios.js"></script>
+
+    <!-- =====================================
+         CHART.JS
+    ====================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- =====================================
+         APP
+    ====================================== -->
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

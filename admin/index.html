@@ -3,6 +3,19 @@
 
 <head>
 
+  <script>
+
+    const logueado =
+      localStorage.getItem("adminLogueado");
+
+    if (logueado !== "true") {
+
+      window.location.href = "login.html";
+
+    }
+
+  </script>
+
   <meta charset="UTF-8">
 
   <meta name="viewport"
@@ -30,8 +43,7 @@
     }
 
     h1{
-      text-align:center;
-      margin-bottom:20px;
+      margin:0;
     }
 
     #map{
@@ -47,6 +59,8 @@
       width:100%;
       border-collapse:collapse;
       background:#1f2937;
+      overflow:hidden;
+      border-radius:20px;
     }
 
     th, td{
@@ -75,36 +89,271 @@
       border:none;
     }
 
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .logout-btn{
+      background:red;
+      color:white;
+      border:none;
+      padding:10px 20px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .logout-btn:hover{
+      opacity:0.8;
+    }
+
+    /* =========================
+       KPIs / ESTADÍSTICAS
+    ========================== */
+
+    .stats{
+      display:grid;
+      grid-template-columns:
+      repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      margin-bottom:30px;
+    }
+
+    .card{
+      padding:25px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .card h2{
+      font-size:40px;
+      margin:0;
+    }
+
+    .card p{
+      margin-top:10px;
+      font-size:18px;
+    }
+
+    .total{
+      background:#2563eb;
+    }
+
+    .pendientes{
+      background:#dc2626;
+    }
+
+    .revision{
+      background:#d97706;
+    }
+
+    .solucionados{
+      background:#16a34a;
+    }
+
+    /* =========================
+       FILTROS
+    ========================== */
+
+    .filtros{
+      display:flex;
+      gap:15px;
+      margin-bottom:25px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .filtros button{
+      padding:12px 20px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:bold;
+      background:#1f2937;
+      color:white;
+      transition:0.3s;
+      font-size:15px;
+    }
+
+    .filtros button:hover{
+      transform:scale(1.05);
+      background:#2563eb;
+    }
+
+    /* =========================
+       BUSCADOR
+    ========================== */
+
+    .buscador{
+      flex:1;
+      min-width:250px;
+    }
+
+    .buscador input{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      font-size:15px;
+      outline:none;
+      background:#1f2937;
+      color:white;
+      box-sizing:border-box;
+    }
+
+    .buscador input::placeholder{
+      color:#9ca3af;
+    }
+
+    /* =========================
+       TABLA RESPONSIVE
+    ========================== */
+
+    .tabla-container{
+      overflow-x:auto;
+      border-radius:20px;
+    }
+
+    /* =========================
+       BADGES
+    ========================== */
+
+    .badge{
+      padding:8px 14px;
+      border-radius:20px;
+      font-size:13px;
+      font-weight:bold;
+      display:inline-block;
+    }
+
+    .badge-pendiente{
+      background:#dc2626;
+      color:white;
+    }
+
+    .badge-revision{
+      background:#d97706;
+      color:white;
+    }
+
+    .badge-solucionado{
+      background:#16a34a;
+      color:white;
+    }
+
   </style>
 
 </head>
 
 <body>
 
-  <h1>🚧 Tunja Sin Huecos - Panel Admin</h1>
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <h1>
+      🚧 Tunja Sin Huecos - Panel Admin
+    </h1>
+
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
+      Cerrar sesión
+    </button>
+
+  </div>
+
+  <!-- KPIs -->
+  <div class="stats">
+
+    <div class="card total">
+      <h2 id="totalReportes">0</h2>
+      <p>🚧 Total Reportes</p>
+    </div>
+
+    <div class="card pendientes">
+      <h2 id="totalPendientes">0</h2>
+      <p>🔴 Pendientes</p>
+    </div>
+
+    <div class="card revision">
+      <h2 id="totalRevision">0</h2>
+      <p>🟡 En revisión</p>
+    </div>
+
+    <div class="card solucionados">
+      <h2 id="totalSolucionados">0</h2>
+      <p>🟢 Solucionados</p>
+    </div>
+
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filtros">
+
+    <button onclick="filtrarEstado('todos')">
+      🌎 Todos
+    </button>
+
+    <button onclick="filtrarEstado('pendiente')">
+      🔴 Pendientes
+    </button>
+
+    <button onclick="filtrarEstado('revision')">
+      🟡 Revisión
+    </button>
+
+    <button onclick="filtrarEstado('solucionado')">
+      🟢 Solucionados
+    </button>
+
+    <!-- BUSCADOR -->
+    <div class="buscador">
+
+      <input
+        type="text"
+        id="buscador"
+        placeholder="🔍 Buscar dirección, teléfono o estado..."
+        onkeyup="buscarReportes()"
+      >
+
+    </div>
+
+  </div>
 
   <!-- MAPA -->
   <div id="map"></div>
 
   <!-- TABLA -->
-  <table>
+  <div class="tabla-container">
 
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Teléfono</th>
-        <th>Dirección</th>
-        <th>Foto</th>
-        <th>Mapa</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
+    <table>
 
-    <tbody id="tablaReportes">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Teléfono</th>
+          <th>Dirección</th>
+          <th>Foto</th>
+          <th>Mapa</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
 
-    </tbody>
+      <tbody id="tablaReportes">
 
-  </table>
+      </tbody>
+
+    </table>
+
+  </div>
 
   <!-- LEAFLET JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

@@ -10,6 +10,14 @@ const app = express()
 
 app.use(express.json())
 
+// ===============================
+// ARCHIVOS ESTÁTICOS
+// ===============================
+
+app.use('/public', express.static(path.join(__dirname, 'public')))
+
+app.use('/admin', express.static(path.join(__dirname, 'admin')))
+
 // ======================================================
 // VARIABLES .ENV
 // ======================================================
@@ -204,9 +212,35 @@ async function subirImagenSupabase(tempPath, fileName) {
 
 app.get('/', (req, res) => {
 
-  res.send('Tunja Backend funcionando 🚀')
+    res.sendFile(
+        path.join(__dirname, 'public', 'index.html')
+    )
 
 })
+// ======================================================
+// LOGIN ADMIN
+// ======================================================
+
+app.get('/login', (req, res) => {
+
+    res.sendFile(
+        path.join(__dirname, 'admin', 'login.html')
+    )
+
+})
+
+// ======================================================
+// DASHBOARD ADMIN
+// ======================================================
+
+app.get('/dashboard', (req, res) => {
+
+    res.sendFile(
+        path.join(__dirname, 'admin', 'index.html')
+    )
+
+})
+
 
 // ======================================================
 // VERIFICAR WEBHOOK
@@ -303,7 +337,7 @@ app.post('/webhook', async (req, res) => {
 
 Bienvenido a *Tunja Sin Huecos* 🚧
 
-Sistema ciudadano para reportar daños en las vías de Tunja.
+Sistema ciudadano organizado por YAMIR LOPEZ para reportar daños en las vías de Tunja.
 
 📌 Antes de continuar necesitamos autorización para el tratamiento de datos personales.
 
@@ -667,10 +701,10 @@ Puedes volver a escribir en cualquier momento 🚀`
 // SERVIDOR
 // ======================================================
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
 
-  console.log(
-    '🚀 Servidor funcionando en puerto 3000'
-  )
+app.listen(PORT, () => {
 
-})
+    console.log(`🚀 Servidor funcionando en puerto ${PORT}`);
+
+});

@@ -1,0 +1,832 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:
+    linear-gradient(
+        180deg,
+        #0f172a,
+        #111827
+    );
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+    color:white;
+
+    overflow-x:hidden;
+}
+
+/* ===================================== */
+/* CONTAINER */
+/* ===================================== */
+
+.container{
+
+    width:95%;
+
+    margin:auto;
+}
+
+/* ===================================== */
+/* HEADER */
+/* ===================================== */
+
+.hero{
+
+    position:relative;
+
+    height:420px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(15,23,42,0.98),
+        rgba(30,41,59,0.95)
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+    margin-bottom:50px;
+
+    border-bottom:
+    1px solid rgba(255,255,255,0.06);
+}
+
+.hero-overlay{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    background:
+    radial-gradient(
+        circle at top right,
+        rgba(255,90,31,0.25),
+        transparent 40%
+    );
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    text-align:center;
+
+    padding:20px;
+}
+
+.hero h1{
+
+    font-size:88px;
+
+    color:white;
+
+    margin-bottom:20px;
+
+    text-shadow:
+    0 10px 30px rgba(0,0,0,0.4);
+}
+
+.hero p{
+
+    color:#cbd5e1;
+
+    font-size:28px;
+
+    letter-spacing:1px;
+}
+
+/* ===================================== */
+/* SECTION TITLE */
+/* ===================================== */
+
+.section-title{
+
+    font-size:34px;
+
+    font-weight:bold;
+
+    margin-bottom:25px;
+
+    color:white;
+}
+
+/* ===================================== */
+/* KPIS */
+/* ===================================== */
+
+.kpis{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+
+    margin-bottom:50px;
+}
+
+.kpi-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #1e293b,
+        #0f172a
+    );
+
+    padding:45px;
+
+    border-radius:30px;
+
+    text-align:center;
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.35);
+
+    transition:0.3s;
+}
+
+.kpi-card:hover{
+
+    transform:
+    translateY(-8px);
+}
+
+.kpi-card h2{
+
+    font-size:72px;
+
+    color:#ff5a1f;
+
+    margin-bottom:15px;
+}
+
+.kpi-card p{
+
+    color:#cbd5e1;
+
+    font-size:22px;
+
+    font-weight:bold;
+}
+
+/* ===================================== */
+/* ALERTA CRITICA */
+/* ===================================== */
+
+.alerta-critica{
+
+    background:
+    linear-gradient(
+        135deg,
+        #dc2626,
+        #ef4444
+    );
+
+    color:white;
+
+    padding:45px;
+
+    border-radius:35px;
+
+    font-size:34px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    margin-bottom:60px;
+
+    box-shadow:
+    0 20px 50px rgba(220,38,38,0.35);
+
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+    }
+
+    50%{
+
+        transform:scale(1.01);
+    }
+
+    100%{
+
+        transform:scale(1);
+    }
+
+}
+
+/* ===================================== */
+/* TOP BARRIOS */
+/* ===================================== */
+
+.top-barrios-section{
+
+    margin-bottom:60px;
+}
+
+#topBarrios{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+}
+
+.top-barrio-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #1e293b,
+        #111827
+    );
+
+    padding:28px;
+
+    border-radius:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+
+    transition:0.3s;
+}
+
+.top-barrio-card:hover{
+
+    transform:
+    translateX(8px);
+}
+
+.top-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.top-medal{
+
+    font-size:42px;
+}
+
+.top-name{
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    color:white;
+}
+
+.top-count{
+
+    background:#ff5a1f;
+
+    color:white;
+
+    padding:14px 22px;
+
+    border-radius:20px;
+
+    font-size:20px;
+
+    font-weight:bold;
+}
+
+/* ===================================== */
+/* MAPA */
+/* ===================================== */
+
+.map-section{
+
+    margin-bottom:60px;
+}
+
+#map{
+
+    height:650px;
+
+    border-radius:35px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,0.45);
+
+    border:
+    3px solid rgba(255,255,255,0.08);
+}
+
+/* ===================================== */
+/* GRAFICAS SMART CITY */
+/* ===================================== */
+
+.graficas-section{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(350px,1fr)
+    );
+
+    gap:25px;
+
+    margin-bottom:60px;
+}
+
+.grafica-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #1e293b,
+        #0f172a
+    );
+
+    border-radius:30px;
+
+    padding:25px;
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+}
+
+.grafica-card h2{
+
+    color:white;
+
+    margin-bottom:20px;
+
+    font-size:24px;
+}
+
+canvas{
+
+    width:100% !important;
+
+    max-height:350px;
+}
+
+/* ===================================== */
+/* BARRIOS */
+/* ===================================== */
+
+.barrios-section{
+
+    margin-bottom:60px;
+}
+
+#barriosContainer{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+}
+
+.barrio-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #1e293b,
+        #111827
+    );
+
+    padding:30px;
+
+    border-radius:28px;
+
+    border-left:
+    8px solid #ff5a1f;
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+
+    transition:0.3s;
+}
+
+.barrio-card:hover{
+
+    transform:
+    translateY(-6px);
+}
+
+.barrio-card h3{
+
+    font-size:30px;
+
+    color:white;
+
+    margin-bottom:15px;
+}
+
+.barrio-card p{
+
+    font-size:20px;
+
+    color:#cbd5e1;
+
+    font-weight:bold;
+}
+
+/* ===================================== */
+/* FEED */
+/* ===================================== */
+
+.feed-section{
+
+    margin-bottom:60px;
+}
+
+#feedReportes{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(340px,1fr));
+
+    gap:30px;
+}
+
+.feed-card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #1e293b,
+        #111827
+    );
+
+    padding:30px;
+
+    border-radius:30px;
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+
+    transition:0.3s;
+}
+
+.feed-card:hover{
+
+    transform:
+    translateY(-6px);
+}
+
+.feed-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.feed-top h3{
+
+    font-size:30px;
+
+    color:white;
+}
+
+.estado-badge{
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:bold;
+}
+
+.feed-direccion{
+
+    color:#cbd5e1;
+
+    line-height:1.7;
+
+    font-size:19px;
+
+    margin-bottom:20px;
+}
+
+.feed-footer{
+
+    color:#94a3b8;
+
+    font-size:15px;
+}
+
+/* ===================================== */
+/* SCROLLBAR
+/* ===================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0f172a;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:20px;
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media(max-width:768px){
+
+    .hero{
+
+        height:320px;
+    }
+
+    .hero h1{
+
+        font-size:52px;
+    }
+
+    .hero p{
+
+        font-size:20px;
+    }
+
+    .kpi-card h2{
+
+        font-size:52px;
+    }
+
+    .section-title{
+
+        font-size:26px;
+    }
+
+    #map{
+
+        height:500px;
+    }
+
+    .alerta-critica{
+
+        font-size:24px;
+
+        padding:30px;
+    }
+
+    .top-barrio-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+    }
+
+    .top-name{
+
+        font-size:22px;
+    }
+
+    .grafica-card h2{
+
+        font-size:20px;
+    }
+
+}
+/* ===================================== */
+/* CONTADOR GIGANTE */
+/* ===================================== */
+
+.contador-section{
+
+    margin-bottom:50px;
+}
+
+.contador-card{
+
+    background:
+    linear-gradient(
+        135deg,
+        #dc2626,
+        #991b1b
+    );
+
+    border-radius:40px;
+
+    padding:50px 30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 25px 60px rgba(220,38,38,0.35);
+
+    margin-bottom:25px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.contador-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-100px;
+    right:-100px;
+
+    width:250px;
+    height:250px;
+
+    border-radius:50%;
+
+    background:
+    rgba(255,255,255,0.08);
+}
+
+.contador-label{
+
+    color:#fecaca;
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
+    letter-spacing:2px;
+
+    font-weight:bold;
+}
+
+.contador-gigante{
+
+    font-size:120px;
+
+    font-weight:900;
+
+    color:white;
+
+    text-shadow:
+    0 0 25px rgba(255,255,255,0.35);
+
+    animation:pulseCounter 2s infinite;
+}
+
+@keyframes pulseCounter{
+
+    0%{
+
+        transform:scale(1);
+    }
+
+    50%{
+
+        transform:scale(1.03);
+    }
+
+    100%{
+
+        transform:scale(1);
+    }
+
+}
+
+.contador-mini-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+}
+
+.contador-mini{
+
+    background:
+    linear-gradient(
+        145deg,
+        #1e293b,
+        #111827
+    );
+
+    border-radius:30px;
+
+    padding:35px;
+
+    text-align:center;
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+}
+
+.contador-mini span{
+
+    font-size:42px;
+
+    display:block;
+
+    margin-bottom:15px;
+}
+
+.contador-mini h3{
+
+    font-size:60px;
+
+    color:#ff5a1f;
+
+    margin-bottom:10px;
+}
+
+.contador-mini p{
+
+    color:#cbd5e1;
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+    .contador-gigante{
+
+        font-size:72px;
+    }
+
+    .contador-label{
+
+        font-size:18px;
+    }
+
+}
