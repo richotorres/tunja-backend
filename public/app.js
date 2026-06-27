@@ -1003,12 +1003,13 @@ async function cargarReportes(){
         ascending:false
     });
 
-    if(error){
+  if(error){
 
-        console.log(error);
+    alert(JSON.stringify(error));
 
-        return;
-    }
+    return;
+
+}
 
     for(const reporte of data){
 
