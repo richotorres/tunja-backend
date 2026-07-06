@@ -14,9 +14,10 @@ app.use(express.json())
 // ARCHIVOS ESTÁTICOS
 // ===============================
 
-app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/admin', express.static(path.join(__dirname, 'admin')))
+
 
 // ======================================================
 // VARIABLES .ENV
