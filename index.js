@@ -39,6 +39,13 @@ const PHONE_NUMBER_ID =
   process.env.PHONE_NUMBER_ID
 
 // ======================================================
+// IMAGEN OFICIAL DE YAMIR
+// ======================================================
+
+const IMAGEN_YAMIR =
+  "https://tunja-backend.onrender.com/img/yamir.png"
+
+// ======================================================
 // SUPABASE
 // ======================================================
 
@@ -78,6 +85,56 @@ async function enviarMensaje(numero, texto) {
       }
     }
   )
+
+}
+
+// ======================================================
+// ENVIAR IMAGEN
+// ======================================================
+async function enviarImagen(numero, imagenUrl, caption) {
+
+    try {
+
+        console.log("📷 Entrando a enviarImagen...");
+        console.log("📷 URL:", imagenUrl);
+
+        const respuesta = await axios.post(
+            `https://graph.facebook.com/v25.0/${PHONE_NUMBER_ID}/messages`,
+            {
+                messaging_product: "whatsapp",
+                to: numero,
+                type: "image",
+                image: {
+                    link: imagenUrl,
+                    caption: caption
+                }
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        console.log("✅ IMAGEN ENVIADA");
+        console.log(respuesta.data);
+
+    } catch (error) {
+
+        console.log("❌ ERROR ENVIANDO IMAGEN");
+
+        if (error.response) {
+
+            console.log(error.response.data);
+
+        } else {
+
+            console.log(error.message);
+
+        }
+
+    }
 
 }
 
@@ -282,6 +339,8 @@ app.post('/webhook', async (req, res) => {
 
   try {
 
+    console.log("🔥 VERSION NUEVA DEL INDEX 🔥");
+
     console.log(
       JSON.stringify(req.body, null, 2)
     )
@@ -318,6 +377,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     const usuario = usuarios[from]
+    console.log("PASO ACTUAL:", usuario.paso)
 
     usuario.ultimaActividad = Date.now()
 
@@ -327,25 +387,31 @@ app.post('/webhook', async (req, res) => {
     // INICIO AUTOMÁTICO
     // ======================================================
 
+    console.log("==========");
+console.log("PASO:", usuario.paso);
     if (
       usuario.paso === 'inicio'
     ) {
+        console.log("🚀 ENTRÓ AL IF DE INICIO");
+        usuario.paso = 'autorizacion'
 
-      usuario.paso = 'autorizacion'
+      await enviarImagen(
+    from,
+    IMAGEN_YAMIR,
+    "Una iniciativa liderada por Yamir López para mejorar las vías de Tunja."
+)
 
       respuesta =
 `👋 ¡Hola!
 
 Bienvenido a *Tunja Sin Huecos* 🚧
 
-Sistema ciudadano organizado por YAMIR LOPEZ para reportar daños en las vías de Tunja.
+Una iniciativa liderada por *Yamir López* para mejorar las vías de Tunja con el apoyo de todos los ciudadanos.
 
-📌 Antes de continuar necesitamos autorización para el tratamiento de datos personales.
+📋 Para continuar, autoriza el tratamiento de tus datos personales.
 
-Responde:
-
-1️⃣ Aceptar
-2️⃣ No aceptar`
+1️⃣ Acepto
+2️⃣ No acepto`
 
     }
 
@@ -620,34 +686,34 @@ Responde:
     // ENVIAR RESPUESTA
     // ======================================================
 
-    await enviarMensaje(
-      from,
-      respuesta
-    )
+await enviarMensaje(
+    from,
+    respuesta
+)
 
-    console.log('✅ MENSAJE ENVIADO')
+console.log('✅ MENSAJE ENVIADO')
 
-    res.sendStatus(200)
+res.sendStatus(200)
 
-  } catch (error) {
+
+} catch (error) {
 
     console.log('❌ ERROR GENERAL')
 
     if (error.response) {
 
-      console.log(error.response.data)
+        console.log(error.response.data)
 
     } else {
 
-      console.log(error.message)
+        console.log(error.message)
 
     }
 
     res.sendStatus(500)
 
-  }
-
-})
+}
+});
 
 // ======================================================
 // CERRAR CONVERSACIONES INACTIVAS
