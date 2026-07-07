@@ -5,7 +5,7 @@ const axios = require('axios')
 const fs = require('fs')
 const path = require('path')
 const { createClient } = require('@supabase/supabase-js')
-
+const { detectarBarrio } = require('./public/barrios')
 const app = express()
 
 app.use(express.json())
@@ -597,6 +597,13 @@ Por favor escribe un número colombiano válido de 10 dígitos.`
         // GUARDAR EN SUPABASE
         // ======================================================
 
+        const barrio = detectarBarrio(
+    usuario.latitud,
+    usuario.longitud
+)
+
+console.log("🏘 Barrio detectado:", barrio)
+
         await axios.post(
           SUPABASE_TABLE,
           {
@@ -606,6 +613,7 @@ Por favor escribe un número colombiano válido de 10 dígitos.`
             foto_url: usuario.foto,
             latitud: usuario.latitud || null,
             longitud: usuario.longitud || null,
+            barrio: barrio,
             estado: 'pendiente'
           },
           {

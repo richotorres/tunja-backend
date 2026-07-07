@@ -91,3 +91,6 @@ function detectarBarrio(
     return "Otros";
 
 }
+module.exports = {
+    detectarBarrio
+}
