@@ -335,6 +335,40 @@ app.get('/webhook', (req, res) => {
 // RECIBIR MENSAJES
 // ======================================================
 
+async function obtenerBarrio(latitud, longitud) {
+
+    try {
+
+        const url =
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitud}&lon=${longitud}`;
+
+        const { data } = await axios.get(url, {
+
+            headers: {
+                "User-Agent": "TunjaSinHuecos/1.0"
+            }
+
+        });
+
+        return (
+            data.address.suburb ||
+            data.address.neighbourhood ||
+            data.address.city_district ||
+            data.address.village ||
+            data.address.town ||
+            "Sin barrio"
+        );
+
+    } catch (error) {
+
+        console.log("❌ Error obteniendo barrio");
+
+        return "Sin barrio";
+
+    }
+
+}
+
 app.post('/webhook', async (req, res) => {
 
   try {
@@ -597,12 +631,12 @@ Por favor escribe un número colombiano válido de 10 dígitos.`
         // GUARDAR EN SUPABASE
         // ======================================================
 
-        const barrio = detectarBarrio(
-    usuario.latitud,
-    usuario.longitud
-)
+       const barrio = await obtenerBarrio(
+              usuario.latitud,
+              usuario.longitud
+          )
 
-console.log("🏘 Barrio detectado:", barrio)
+            console.log("📍 Barrio detectado:", barrio)
 
         await axios.post(
           SUPABASE_TABLE,
