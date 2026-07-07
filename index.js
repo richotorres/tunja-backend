@@ -638,7 +638,8 @@ Por favor escribe un número colombiano válido de 10 dígitos.`
 
             console.log("📍 Barrio detectado:", barrio)
 
-        await axios.post(
+        
+          const respuestaSupabase = await axios.post(
           SUPABASE_TABLE,
           {
             nombre: usuario.nombre,
@@ -655,22 +656,31 @@ Por favor escribe un número colombiano válido de 10 dígitos.`
               apikey: SUPABASE_KEY,
               Authorization: `Bearer ${SUPABASE_KEY}`,
               'Content-Type': 'application/json',
-              Prefer: 'return=minimal'
+              Prefer: 'return=representation'
             }
           }
         )
 
+        const idReporte = respuestaSupabase.data[0].id;
+
+const codigoReporte =
+`TH-${String(idReporte).padStart(6, "0")}`;
+
         respuesta =
 `✅ *Reporte registrado correctamente*
 
-📍 Ubicación guardada
-📸 Fotografía guardada
+📍 Ubicación registrada
+📸 Fotografía recibida
 📱 Contacto registrado
 
 🆔 Código:
-TH-${Date.now()}
+${codigoReporte}
 
-🙏 Gracias por ayudar a mejorar las vías de Tunja.`
+🙏 Gracias por ayudar a mejorar las vías de Tunja.
+🤝 Una iniciativa ciudadana.
+
+🚜 *Yamir López*
+¡Hagámoslo bien, hagámoslo Ya!.`
 
         delete usuarios[from]
 
@@ -683,14 +693,22 @@ TH-${Date.now()}
     // ======================================================
 
     else if (
-      usuario.paso === 'menu' &&
-      text === '2'
-    ) {
+    usuario.paso === "menu" &&
+    text === "2"
+) {
 
-      respuesta =
-`📋 Próximamente podrás consultar el estado de tus reportes.`
+   usuario.paso = "consultar";
 
-    }
+respuesta =
+`📋 *Consultar reporte*
+
+Escribe el código de tu reporte.
+
+Ejemplo:
+
+TH-000125`;
+
+}
 
     // ======================================================
     // INFORMACIÓN
