@@ -666,6 +666,20 @@ Por favor escribe un número colombiano válido de 10 dígitos.`
 const codigoReporte =
 `TH-${String(idReporte).padStart(6, "0")}`;
 
+await axios.patch(
+    `${SUPABASE_TABLE}?id=eq.${idReporte}`,
+    {
+        codigo_reporte: codigoReporte
+    },
+    {
+        headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json"
+        }
+    }
+);
+
         respuesta =
 `✅ *Reporte registrado correctamente*
 
@@ -707,6 +721,31 @@ Escribe el código de tu reporte.
 Ejemplo:
 
 TH-000125`;
+
+}
+
+// ======================================
+// BUSCAR REPORTE
+// ======================================
+
+else if (usuario.paso === "consultar") {
+
+    const codigo = text.trim().toUpperCase();
+
+    if (!codigo.startsWith("TH-")) {
+
+        respuesta =
+`❌ Código inválido.
+
+Ejemplo:
+
+TH-000125`;
+
+    } else {
+
+        // Aquí consultaremos Supabase en el siguiente paso
+
+    }
 
 }
 
