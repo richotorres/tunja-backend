@@ -398,7 +398,7 @@ console.log("PASO:", usuario.paso);
       await enviarImagen(
     from,
     IMAGEN_YAMIR,
-    "Una iniciativa liderada por Yamir López para mejorar las vías de Tunja."
+    
 )
 
       respuesta =
