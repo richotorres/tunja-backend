@@ -1029,6 +1029,36 @@ Puedes volver a escribir en cualquier momento 🚀`
 }, 60000)
 
 // ======================================================
+// ACTUALIZAR ESTADO DEL REPORTE
+// ======================================================
+
+app.put("/api/reportes/:id/estado", async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+    const { estado } = req.body;
+
+    res.json({
+      ok: true,
+      mensaje: "Endpoint creado correctamente",
+      id,
+      estado
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      ok: false,
+      error: error.message
+    });
+
+  }
+
+});
+// ======================================================
 // SERVIDOR
 // ======================================================
 
