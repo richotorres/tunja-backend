@@ -907,3 +907,52 @@ canvas{
     filter:blur(40px);
 
 }
+/* =====================================
+   HERO RESPONSIVE
+===================================== */
+
+@media (max-width:768px){
+
+    .hero{
+
+        padding:50px 25px;
+
+    }
+
+    .hero-container{
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        gap:30px;
+
+    }
+
+    .hero-image{
+
+    order:1;
+    width:100%;
+    display:flex;
+    justify-content:center;
+
+}
+
+.hero-text{
+
+    order:2;
+    width:100%;
+    max-width:100%;
+
+}
+
+    .hero-image img{
+
+        width:100%;
+        max-width:420px;
+        height:auto;
+        display:block;
+
+    }
+
+}
