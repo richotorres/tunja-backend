@@ -421,8 +421,6 @@ async function obtenerBarrio(latitud, longitud) {
 // CARGAR BARRIOS DESDE CSV
 // ======================================
 
-const csv = require("csv-parser");
-
 async function cargarBarrios() {
 
     return new Promise((resolve, reject) => {
