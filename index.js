@@ -421,41 +421,43 @@ async function obtenerBarrio(latitud, longitud) {
 // CARGAR BARRIOS DESDE CSV
 // ======================================
 
+const csv = require("csv-parser");
+
 async function cargarBarrios() {
 
-    const archivo = path.join(__dirname, "barrios.csv");
+    return new Promise((resolve, reject) => {
 
-    const lector = readline.createInterface({
-        input: fs.createReadStream(archivo),
-        crlfDelay: Infinity
+        barriosTunja = [];
+
+        fs.createReadStream(path.join(__dirname, "barrios.csv"))
+            .pipe(csv())
+            .on("data", (row) => {
+
+                barriosTunja.push({
+
+                    nombre: row.barrio.trim(),
+
+                    latitud: parseFloat(
+                        row.latitud.replace(",", ".")
+                    ),
+
+                    longitud: parseFloat(
+                        row.longitud.replace(",", ".")
+                    )
+
+                });
+
+            })
+            .on("end", () => {
+
+                console.log(`📦 Se cargaron ${barriosTunja.length} barrios`);
+
+                resolve();
+
+            })
+            .on("error", reject);
+
     });
-
-    let primeraLinea = true;
-
-    for await (const linea of lector) {
-
-        if (primeraLinea) {
-            primeraLinea = false;
-            continue;
-        }
-
-        const columnas = linea.split(",");
-
-        if (columnas.length < 5) continue;
-
-        barriosTunja.push({
-
-            nombre: columnas[1].trim(),
-
-            latitud: parseFloat(columnas[3]),
-
-            longitud: parseFloat(columnas[4])
-
-        });
-
-    }
-
-    console.log("🏘️ Se cargaron", barriosTunja.length, "barrios");
 
 }
 
