@@ -1096,7 +1096,10 @@ Tu reporte *${reporteActualizado.codigo_reporte}* ahora se encuentra:
 
 Nuestro equipo revisará el caso para darle solución.
 
-Gracias por contribuir a mejorar las vías de Tunja. 💙`;
+Gracias por contribuir a mejorar las vías de Tunja. 
+
+🚜 *Yamir López*
+¡Hagámoslo bien, hagámoslo Ya!`;
 
 }
 
@@ -1113,7 +1116,10 @@ Tu reporte *${reporteActualizado.codigo_reporte}* ha sido marcado como:
 
 🟢 *SOLUCIONADO*
 
-Muchas gracias por ayudarnos a construir una mejor ciudad. 🚜💙`;
+Muchas gracias por ayudarnos a construir una mejor ciudad. 🚜
+
+🚜 *Yamir López*
+¡Hagámoslo bien, hagámoslo Ya!`;
 
 }
 
