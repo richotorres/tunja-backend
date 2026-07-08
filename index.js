@@ -743,9 +743,61 @@ TH-000125`;
 
     } else {
 
-        // Aquí consultaremos Supabase en el siguiente paso
+    try {
+
+        const consulta = await axios.get(
+            `${SUPABASE_TABLE}?codigo_reporte=eq.${codigo}`,
+            {
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        if (consulta.data.length === 0) {
+
+            respuesta =
+`❌ No encontramos ningún reporte con ese código.
+
+Verifica e inténtalo nuevamente.`;
+
+        } else {
+
+            const reporte = consulta.data[0];
+
+            respuesta =
+`📋 *Estado de tu reporte*
+
+🆔 Código:
+${reporte.codigo_reporte}
+
+📍 Barrio:
+${reporte.barrio}
+
+🚧 Estado:
+${reporte.estado}
+
+🙏 Gracias por utilizar Tunja Sin Huecos.`;
+
+        }
+
+        usuario.paso = "menu";
+
+    } catch (error) {
+
+        console.error(error);
+
+        respuesta =
+`❌ Ocurrió un error consultando tu reporte.
+
+Inténtalo nuevamente más tarde.`;
+
+        usuario.paso = "menu";
 
     }
+
+}
 
 }
 
