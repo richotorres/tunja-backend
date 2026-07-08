@@ -10,6 +10,12 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
+let paginaActual = 1;
+
+const reportesPorPagina = 10;
+
+let totalPaginas = 1;
+
 // =====================================
 // MAPA
 // =====================================
@@ -488,6 +494,7 @@ function renderFeed(data){
 
                     <img
                         src="${reporte.foto_url}"
+                         loading="lazy"
 
                         onclick="
                             window.open(
@@ -995,13 +1002,50 @@ function renderGraficas(data){
 
 async function cargarReportes(){
 
-    const { data, error } =
-    await supabaseClient
-    .from("reportes")
-    .select("*")
-    .order("created_at", {
-        ascending:false
-    });
+    // ===============================
+// CONSULTA COMPLETA (KPIs Y MAPA)
+// ===============================
+
+const {
+    data: todosReportes,
+    error: errorTodos
+} =
+await supabaseClient
+.from("reportes")
+.select("*")
+.order("created_at",{
+    ascending:false
+});
+
+if(errorTodos){
+
+    alert(JSON.stringify(errorTodos));
+
+    return;
+
+}
+
+   const desde =
+(paginaActual - 1) * reportesPorPagina;
+
+const hasta =
+desde + reportesPorPagina - 1;
+
+const {
+    data,
+    error,
+    count
+} =
+await supabaseClient
+.from("reportes")
+.select("*", { count: "exact" })
+.order("created_at", {
+    ascending: false
+})
+.range(desde, hasta);
+
+totalPaginas =
+Math.ceil(count / reportesPorPagina);
 
   if(error){
 
@@ -1042,19 +1086,27 @@ async function cargarReportes(){
 
     }
 
-    actualizarKPIs(data);
+    actualizarKPIs(todosReportes);
 
-    renderMapa(data);
+renderMapa(todosReportes);
 
-    renderFeed(data);
+renderFeed(data);
 
-    renderBarrios(data);
+renderBarrios(todosReportes);
 
-    renderTopBarrios(data);
+renderTopBarrios(todosReportes);
 
-    renderZonaCritica(data);
+renderZonaCritica(todosReportes);
 
-    renderGraficas(data);
+renderGraficas(todosReportes);
+document.getElementById("infoPagina").textContent =
+`Página ${paginaActual} de ${totalPaginas}`;
+
+document.getElementById("btnAnterior").disabled =
+paginaActual === 1;
+
+document.getElementById("btnSiguiente").disabled =
+paginaActual === totalPaginas;
 
 }
 
@@ -1079,6 +1131,33 @@ supabaseClient
 )
 .subscribe();
 
+document
+.getElementById("btnAnterior")
+.addEventListener("click", () => {
+
+    if (paginaActual > 1) {
+
+        paginaActual--;
+
+        cargarReportes();
+
+    }
+
+});
+
+document
+.getElementById("btnSiguiente")
+.addEventListener("click", () => {
+
+    if (paginaActual < totalPaginas) {
+
+        paginaActual++;
+
+        cargarReportes();
+
+    }
+
+});
 // =====================================
 // INIT
 // =====================================

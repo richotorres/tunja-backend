@@ -4,36 +4,30 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Tunja Sin Huecos
-    </title>
-
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunja Sin Huecos</title>
+    <meta name="description" content="Reporta huecos en Tunja de forma rápida. Una iniciativa ciudadana liderada por Yamir López para mejorar la movilidad y priorizar los puntos críticos de la ciudad.">
+    <meta name="keywords" content="Tunja Sin Huecos, huecos Tunja, reportar huecos Tunja, Yamir López, movilidad Tunja, vías Tunja, Boyacá, reportes ciudadanos">
+    <meta name="author" content="Tunja Sin Huecos">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#6a3cbc">
+    <link rel="canonical" href="https://tunjasinhuecosya.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tunja Sin Huecos">
+    <meta property="og:description" content="Reporta huecos en Tunja de forma rápida y ayuda a mejorar la movilidad de nuestra ciudad.">
+    <meta property="og:url" content="https://tunjasinhuecosya.com/">
+    <meta property="og:site_name" content="Tunja Sin Huecos">
     <!-- =====================================
          LEAFLET CSS
     ====================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet/dist/leaflet.css"
-    >
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <!-- =====================================
          CSS
     ====================================== -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
@@ -352,9 +346,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
             </div>
 
-            <div id="feedReportes">
+            <div id="feedReportes"></div>
+            <div class="paginacion">
 
-            </div>
+    <button id="btnAnterior">
+        ⬅ Anterior
+    </button>
+
+    <span id="infoPagina">
+        Página 1 de 1
+    </span>
+
+    <button id="btnSiguiente">
+        Siguiente ➡
+    </button>
+
+</div>
 
         </section>
 
