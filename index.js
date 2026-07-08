@@ -1037,11 +1037,91 @@ app.put("/api/reportes/:id/estado", async (req, res) => {
     const { id } = req.params;
     const { estado } = req.body;
 
+    // Buscar el reporte
+    const { data: reporte, error: errorConsulta } = await supabase
+      .from("reportes")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (errorConsulta || !reporte) {
+      return res.status(404).json({
+        ok: false,
+        error: "Reporte no encontrado"
+      });
+    }
+
+    // Actualizar estado y obtener el registro actualizado
+const {
+  data: reporteActualizado,
+  error: errorActualizar
+} = await supabase
+  .from("reportes")
+  .update({
+    estado
+  })
+  .eq("id", id)
+  .select()
+  .single();
+
+if (errorActualizar) {
+  return res.status(500).json({
+    ok: false,
+    error: errorActualizar.message
+  });
+}
+
+    // =====================================
+// ENVIAR NOTIFICACIÓN POR WHATSAPP
+// =====================================
+
+let mensaje = "";
+
+if (estado === "revision") {
+
+  mensaje =
+`🚧 *Tunja Sin Huecos*
+
+Hola ${reporteActualizado.nombre}.
+
+Tu reporte *${reporteActualizado.codigo_reporte}* ahora se encuentra:
+
+🟡 *EN REVISIÓN*
+
+Nuestro equipo revisará el caso para darle solución.
+
+Gracias por contribuir a mejorar las vías de Tunja. 💙`;
+
+}
+
+if (estado === "solucionado") {
+
+  mensaje =
+`🎉 *Tunja Sin Huecos*
+
+Hola ${reporteActualizado.nombre}.
+
+Tenemos buenas noticias.
+
+Tu reporte *${reporteActualizado.codigo_reporte}* ha sido marcado como:
+
+🟢 *SOLUCIONADO*
+
+Muchas gracias por ayudarnos a construir una mejor ciudad. 🚜💙`;
+
+}
+
+if (mensaje !== "") {
+
+  await enviarMensaje(
+  reporteActualizado.telefono.toString(),
+  mensaje
+);
+
+}
+
     res.json({
-      ok: true,
-      mensaje: "Endpoint creado correctamente",
-      id,
-      estado
+      ok: true
     });
 
   } catch (error) {
