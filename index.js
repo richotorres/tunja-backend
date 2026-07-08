@@ -4,12 +4,46 @@ const express = require('express')
 const axios = require('axios')
 const fs = require('fs')
 const path = require('path')
+const readline = require("readline");
 const { createClient } = require('@supabase/supabase-js')
 const { detectarBarrio } = require('./public/barrios')
 const app = express()
 
 app.use(express.json())
 
+// ======================================
+// BARRIOS OFICIALES
+// ======================================
+
+let barriosTunja = [];
+
+function buscarBarrioCSV(latitud, longitud) {
+
+    let barrioMasCercano = null;
+    let distanciaMinima = Infinity;
+
+    for (const barrio of barriosTunja) {
+
+        const distancia = Math.sqrt(
+
+            Math.pow(latitud - barrio.latitud, 2) +
+
+            Math.pow(longitud - barrio.longitud, 2)
+
+        );
+
+        if (distancia < distanciaMinima) {
+
+            distanciaMinima = distancia;
+            barrioMasCercano = barrio.nombre;
+
+        }
+
+    }
+
+    return barrioMasCercano;
+
+}
 // ===============================
 // ARCHIVOS ESTÁTICOS
 // ===============================
@@ -337,6 +371,18 @@ app.get('/webhook', (req, res) => {
 
 async function obtenerBarrio(latitud, longitud) {
 
+    // Primero buscar en el CSV
+    const barrioCSV = buscarBarrioCSV(latitud, longitud);
+
+    if (barrioCSV) {
+
+        console.log("🏘 Barrio encontrado en CSV:", barrioCSV);
+
+        return barrioCSV;
+
+    }
+
+    // Si no aparece en el CSV, consultar OpenStreetMap
     try {
 
         const url =
@@ -350,14 +396,17 @@ async function obtenerBarrio(latitud, longitud) {
 
         });
 
-        return (
+        const barrio =
             data.address.suburb ||
             data.address.neighbourhood ||
             data.address.city_district ||
             data.address.village ||
             data.address.town ||
-            "Sin barrio"
-        );
+            "Sin barrio";
+
+        console.log("🌎 Barrio OpenStreetMap:", barrio);
+
+        return barrio;
 
     } catch (error) {
 
@@ -366,6 +415,47 @@ async function obtenerBarrio(latitud, longitud) {
         return "Sin barrio";
 
     }
+
+}
+// ======================================
+// CARGAR BARRIOS DESDE CSV
+// ======================================
+
+async function cargarBarrios() {
+
+    const archivo = path.join(__dirname, "barrios.csv");
+
+    const lector = readline.createInterface({
+        input: fs.createReadStream(archivo),
+        crlfDelay: Infinity
+    });
+
+    let primeraLinea = true;
+
+    for await (const linea of lector) {
+
+        if (primeraLinea) {
+            primeraLinea = false;
+            continue;
+        }
+
+        const columnas = linea.split(",");
+
+        if (columnas.length < 5) continue;
+
+        barriosTunja.push({
+
+            nombre: columnas[1].trim(),
+
+            latitud: parseFloat(columnas[3]),
+
+            longitud: parseFloat(columnas[4])
+
+        });
+
+    }
+
+    console.log("🏘️ Se cargaron", barriosTunja.length, "barrios");
 
 }
 
@@ -942,8 +1032,18 @@ Puedes volver a escribir en cualquier momento 🚀`
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+cargarBarrios()
+.then(() => {
 
-    console.log(`🚀 Servidor funcionando en puerto ${PORT}`);
+    app.listen(PORT, () => {
+
+        console.log(`🚀 Servidor funcionando en puerto ${PORT}`);
+
+    });
+
+})
+.catch(error => {
+
+    console.error("❌ Error cargando barrios:", error);
 
 });
