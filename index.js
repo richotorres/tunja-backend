@@ -11,6 +11,8 @@ const app = express()
 
 app.use(express.json())
 
+
+
 // ======================================
 // BARRIOS OFICIALES
 // ======================================
@@ -1031,6 +1033,10 @@ Puedes volver a escribir en cualquier momento 🚀`
 // ======================================================
 
 app.put("/api/reportes/:id/estado", async (req, res) => {
+
+  console.log("🚨 CAMBIO DE ESTADO");
+  console.log("ID:", req.params.id);
+  console.log("Estado:", req.body.estado);
 
   try {
 
