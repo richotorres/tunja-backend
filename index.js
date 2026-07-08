@@ -680,21 +680,27 @@ await axios.patch(
     }
 );
 
-        respuesta =
+respuesta =
 `✅ *Reporte registrado correctamente*
 
-📍 Ubicación registrada
-📸 Fotografía recibida
-📱 Contacto registrado
-
-🆔 Código:
+🆔 *Código del reporte:*
 ${codigoReporte}
 
+📍 Ubicación registrada.
+📸 Fotografía recibida.
+
+💾 *Guarda este código.*
+
+Con este código podrás consultar el estado de tu reporte cuando quieras desde el menú principal.
+
 🙏 Gracias por ayudar a mejorar las vías de Tunja.
-🤝 Una iniciativa ciudadana.
 
 🚜 *Yamir López*
-¡Hagámoslo bien, hagámoslo Ya!.`
+¡Hagámoslo bien, hagámoslo Ya!`;
+
+usuario.paso = "menu";
+
+
 
         delete usuarios[from]
 
@@ -769,16 +775,28 @@ Verifica e inténtalo nuevamente.`;
             respuesta =
 `📋 *Estado de tu reporte*
 
-🆔 Código:
+🆔 *Código:*
 ${reporte.codigo_reporte}
 
-📍 Barrio:
+📍 *Barrio:*
 ${reporte.barrio}
 
-🚧 Estado:
+🚧 *Estado:*
 ${reporte.estado}
 
-🙏 Gracias por utilizar Tunja Sin Huecos.`;
+🙏 Gracias por utilizar Tunja Sin Huecos.
+
+────────────────
+
+🚜 *MENÚ PRINCIPAL*
+
+Selecciona una opción:
+
+1️⃣ Reportar hueco
+
+2️⃣ Consultar reporte
+
+3️⃣ Información`;
 
         }
 
@@ -821,15 +839,18 @@ Inténtalo nuevamente más tarde.`;
 
     else {
 
-      usuario.paso = 'autorizacion'
+      usuario.paso = "menu";
 
-      respuesta =
-`👋 Bienvenido nuevamente a *Tunja Sin Huecos* 🚧
+respuesta = `
+🚜 *MENÚ PRINCIPAL*
 
-Responde:
+Selecciona una opción:
 
-1️⃣ Aceptar
-2️⃣ No aceptar`
+1️⃣ Reportar hueco
+
+2️⃣ Consultar reporte
+
+3️⃣ Información`;
 
     }
 
