@@ -541,30 +541,40 @@ function renderizarReportes(data) {
 // CAMBIAR ESTADO
 // =====================================
 
-async function cambiarEstado(
-  id,
-  nuevoEstado
-) {
+async function cambiarEstado(id, nuevoEstado) {
 
-  const { error } = await supabaseClient
-    .from("reportes")
-    .update({
-      estado: nuevoEstado
-    })
-    .eq("id", id);
+  try {
 
-  if (error) {
+    const respuesta = await fetch(
+      "/api/reportes/" + id + "/estado",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          estado: nuevoEstado
+        })
+      }
+    );
 
-    console.log(error);
+    const resultado = await respuesta.json();
 
-    alert("Error actualizando estado");
+    if (!respuesta.ok) {
+      throw new Error(resultado.error || "Error actualizando estado");
+    }
 
-    return;
+    alert("✅ Estado actualizado");
+
+    cargarReportes();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("❌ " + error.message);
+
   }
-
-  alert("✅ Estado actualizado");
-
-  cargarReportes();
 
 }
 
